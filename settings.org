@@ -1,0 +1,303 @@
+
+* packages
+
+** Melpa
+
+*** description
+    Includes Melpa packages
+
+*** codes
+
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
+(package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+#+END_SRC
+
+
+* variables for modes
+
+** display & input
+
+*** description
+
+    Basic display & inputs. Below variables set:
+- disable menu bar, tool bar, scroll bar, init splash screen
+- display linum mode, column mode
+- disable backup files
+
+*** codes
+
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+;(toggle-frame-maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(setq inhibit-splash-screen t)
+(setq make-backup-files nil)
+(setq org-log-done 'time)
+(electric-pair-mode 1)
+(global-linum-mode 1)
+(global-hl-line-mode 1)
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq column-number-mode t)
+(show-paren-mode 1)
+(savehist-mode 1)
+(global-auto-revert-mode 1)
+(global-visual-line-mode 1)
+#+END_SRC
+
+** ido
+
+*** description
+    Interactive DO.
+
+*** codes
+
+#+BEGIN_SRC emacs-lisp
+(ido-mode 1)
+(setq ido-everywhere t)
+(setq ido-enable-flex-matching t)
+(setq ido-use-filename-at-point 'guess)
+(setq ido-create-new-buffer 'always)
+(setq ido-file-extension-order '(".org" ".txt" ".csv"))
+#+END_SRC
+
+** winner mode
+
+*** Description
+    Keeps history of Window setups. 
+
+*** code
+
+#+BEGIN_SRC emacs-lisp
+(winner-mode 1)
+#+END_SRC
+
+
+* installed packages
+
+** ido describe binding
+
+** ido grid mode
+
+*** Description
+    Shows contents of folder in buffer in a grid
+
+*** Codes
+
+#+BEGIN_SRC emacs-lisp
+(ido-grid-mode 1)
+#+END_SRC
+
+** iedit
+
+*** Description
+    Edit all instances of text
+
+*** Codes
+
+#+BEGIN_SRC emacs-lisp
+(require 'iedit)
+#+END_SRC
+
+** ivy + swiper + counsel
+
+*** description
+    Different way of navigating lists in the buffer for search, buffers etc
+
+*** codes
+
+#+BEGIN_SRC emacs-lisp
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  ;; enable this if you want `swiper' to use it
+  ;; (setq search-default-mode #'char-fold-to-regexp)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  ;(global-set-key (kbd "C-y") 'counsel-yank-pop)
+  ;(global-set-key (kbd "C-x C-f") 'counsel-find-file) ;;;; Keep IDO mode for find file
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+#+END_SRC
+
+** magit
+
+*** Description
+    Git implementation in Emacs
+
+*** Codes
+
+#+BEGIN_SRC emacs-lisp
+(require 'magit)
+#+END_SRC
+
+** move-dup
+
+*** Description
+    Move block or single line up or down
+
+*** Codes
+
+#+BEGIN_SRC emacs-lisp
+(require 'move-dup)
+
+(global-set-key (kbd "M-<up>") 'md-move-lines-up)
+(global-set-key (kbd "M-<down>") 'md-move-lines-down)
+(global-set-key (kbd "C-M-<up>") 'md-duplicate-up)
+(global-set-key (kbd "C-M-<down>") 'md-duplicate-down)
+#+END_SRC
+
+** org bullets
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda() (org-bullets-mode 1)))
+#+END_SRC
+
+** company
+
+*** Description
+    Alternative auto complete package
+
+*** Codes
+#+BEGIN_SRC emacs-lisp
+(add-hook 'after-init-hook 'global-company-mode)
+(global-company-mode t)
+(setq company-minimum-prefix-length 1)
+(setq company-idle-delay 0)
+#+END_SRC
+
+** company quickhelp
+
+*** Description
+*** Codes
+
+#+BEGIN_SRC emacs-lisp
+(company-quickhelp-mode 1)
+(setq company-quickhelp-delay 0)
+#+END_SRC
+
+** anaconda
+
+*** Description
+    Python and Anaconda auto completions
+
+*** Codes
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'python-mode-hook 'anaconda-mode)
+#+END_SRC
+
+** company-anaconda
+
+*** Description
+*** Codes
+#+BEGIN_SRC emacs-lisp
+(require 'rx)
+(add-to-list 'company-backends 'company-anaconda)
+#+END_SRC
+
+
+* keybindings
+
+** codes
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-D") 'backward-kill-word)
+(global-set-key (kbd "C-?") 'hippie-expand)
+(global-set-key (kbd "C-z") 'replace-string)
+#+END_SRC
+
+
+* good features to remember
+
+** movement keys
+
+   These are some basic movement keys in emacs.
+
+  |-----------------------------------------------+-----------------------------------|
+  | key combo                                     | effect                            |
+  |-----------------------------------------------+-----------------------------------|
+  | C-f                                           | forward char                      |
+  | C-b                                           | backward char                     |
+  | C-n                                           | next line                         |
+  | C-p                                           | previous line                     |
+  | C-a                                           | beginging of line                 |
+  | C-e                                           | end of line                       |
+  | C-x [                                         | forward one page                  |
+  | C-x ]                                         | backward one page                 |
+  |-----------------------------------------------+-----------------------------------|
+  | M-f                                           | forward word                      |
+  | M-b                                           | backward word                     |
+  | M-m                                           | first non whitespace              |
+  | M-}                                           | move beginging of a paragraph     |
+  | M-{                                           | move beginging of a paragraph     |
+  | M-a                                           | move beginging of a sentence      |
+  | M-e                                           | move beginging of a sentence      |
+  | M-<                                           | move to begining of buffer        |
+  | M->                                           | move to end of buffer             |
+  |-----------------------------------------------+-----------------------------------|
+  | C-M-f                                         | forward s-expression              |
+  | C-M-b                                         | backward s-expression             |
+  | C-M-d                                         | move down to a list               |
+  | C-M-u                                         | move up out of list               |
+  | C-M-n                                         | move to next list                 |
+  | C-M-p                                         | move to previous list             |
+  | C-M-a                                         | move to begining of defun         |
+  | C-M-e                                         | move to end of defun              |
+  |-----------------------------------------------+-----------------------------------|
+  | C-v                                           | scroll down one page              |
+  | M-v                                           | scroll up one page                |
+  | C-M-v                                         | scroll down other window          |
+  | C-M-S-v                                       | scroll up other window            |
+  |-----------------------------------------------+-----------------------------------|
+  | C-x r m                                       | set a bookmark                    |
+  | C-x r l                                       | list a bookmark                   |
+  | C-x r b                                       | jump to a bookmark                |
+  |-----------------------------------------------+-----------------------------------|
+  | C-x r n                                       | store number in resistor          |
+  | C-x r s                                       | store region in resistor          |
+  | C-x r SPC                                     | store point in resistor           |
+  | C-x r +                                       | increment content in resistor     |
+  | C-x r j                                       | jump to resistor                  |
+  | C-x r i                                       | insert content of resistor        |
+  | C-x r w                                       | store window config in resistor   |
+  | C-x r f                                       | store frameset in resistor        |
+  | --------------------------------------------- | --------------------------------- |
+  | C-SPC                                         | mark the region                   |
+  | C-u C-SPC                                     | Jump to mark                      |
+  | C-x C-x                                       | exchanges mark & point            |
+  |-----------------------------------------------+-----------------------------------|
+  | M-h                                           | Mark Next paragraph               |
+  | C-x h                                         | Mark whole buffer                 |
+  | C-M-h                                         | mark next defun                   |
+  | C-x C-p                                       | mark next page                    |
+  | M-@                                           | mark next word                    |
+  | C-M-@                                         | mark next s expression            |
+  |-----------------------------------------------+-----------------------------------|
+  | C-?                                           | hippie expand                     |
+  | M-D                                           | backwards kill word               |
+  | C-z                                           | replace string                    |
+  |-----------------------------------------------+-----------------------------------|
+  | M-S-up                                        | move line up                      |
+  | M-S-down                                      | Move line down                    |
+  |-----------------------------------------------+-----------------------------------|
+  |                                               |                                   |
+  |                                               |                                   |
